@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>게시물 관리</title>
+<style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #f9f9f9;
+      padding: 40px;
+      text-align: center;
+    }
+
+    h1 {
+      font-size: 48px;
+      color: #3498db;
+      margin-bottom: 20px;
+    }
+
+    a {
+      text-decoration: none;
+      color: #fff;
+      background-color: #2ecc71;
+      font-weight: bold;
+      padding: 10px 20px;
+      border-radius: 5px;
+      margin: 10px;
+      transition: background-color 0.3s;
+      display: inline-block;
+    }
+
+    a:hover {
+      background-color: #27ae60;
+    }
+  </style>
+  <style>
+    .post {
+      border: 2px solid #3498db;
+      padding: 20px;
+      margin-bottom: 20px;
+      border-radius: 10px;
+      background-color: #fff;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      text-align: left;
+    }
+
+    .post img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 5px;
+    }
+
+    .post a {
+      color: #2ecc71;
+      text-decoration: none;
+      font-weight: bold;
+      display: block;
+      margin-top: 10px;
+    }
+
+    .post a:hover {
+      color: #27ae60;
+    }
+
+    .post button {
+      padding: 10px 15px;
+      margin: 5px;
+      font-weight: bold;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s, color 0.3s;
+    }
+
+    .post button:hover {
+      background-color: #2ecc71;
+      color: #fff;
+    }
+
+    .comment {
+      margin-top: 10px;
+      padding: 5px 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      background-color: #f5f5f5;
+    }
+  </style>
+
+</head>
+<body>
+  <h1><a href="blog.html">블로그 메인 페이지</a></h1>
+
+  <!-- 게시물 추가 폼 -->
+  <h1>게시물 목록</h1>
+  <input type="text" id="postAuthor" placeholder="사용자 이름">
+  <input type="text" id="postTitle" placeholder="제목">
+  <textarea id="postContent" placeholder="내용"></textarea>
+  <input type="file" id="postFile" accept="image/*, .pdf, .doc, .docx"> <!-- 파일 업로드 추가 -->
+  <button onclick="addPost()">게시물 추가</button>
+
+  <!-- 게시물 목록 -->
+  <div id="postList"></div>
+
+  <script>
+    // 게시물 데이터
+    let posts = [];
+
+    // 페이지 로드 시 localStorage에서 게시물 불러오기
+    window.onload = function() {
+      if(localStorage.getItem('posts')) {
+        posts = JSON.parse(localStorage.getItem('posts'));
+        displayPosts();
+      }
+    }
+
+    // 게시물 추가 함수
+    function addPost() {
+      const author = document.getElementById('postAuthor').value;
+      const title = document.getElementById('postTitle').value;
+      const content = document.getElementById('postContent').value;
+      const file = document.getElementById('postFile').files[0]; // 첨부 파일 가져오기
+
+      // 파일 업로드 처리
+      let filePath = null;
+      if (file) {
+        filePath = URL.createObjectURL(file);
+      }
+
+      const post = { author, title, content, filePath, comments: [], likes: 0 }; // filePath 추가
+      posts.push(post);
+      updateLocalStorage();
+      displayPosts();
+    }
+
+    // 게시물 목록을 화면에 표시하는 함수
+    function displayPosts() {
+      const postList = document.getElementById('postList');
+      postList.innerHTML = '';
+
+      posts.forEach((post, index) => {
+        const postItem = document.createElement('div');
+        postItem.className = 'post';
+        postItem.innerHTML = `<strong>${post.author}</strong> - <strong>${post.title}</strong><br>${post.content}`;
+
+        // 파일 표시
+        if (post.filePath) {
+          if (post.filePath.match(/\.(jpeg|jpg|gif|png)$/)) {
+            postItem.innerHTML += `<img src="${post.filePath}" alt="첨부 이미지">`;
+          } else {
+            postItem.innerHTML += `<a href="${post.filePath}" target="_blank" rel="noopener noreferrer">첨부 파일 보기</a>`;
+          }
+        }
+
+        postItem.innerHTML += `<button onclick="editPost(${index})">수정</button> <button onclick="deletePost(${index})">삭제</button>`;
+        postItem.innerHTML += `<button onclick="likePost(${index})">추천 (${post.likes})</button>`;
+
+        // 댓글 추가 폼
+        postItem.innerHTML += `<h3>댓글 추가</h3>
+          <input type="text" id="commentAuthor${index}" placeholder="사용자 이름">
+          <input type="text" id="commentContent${index}" placeholder="댓글 내용">
+          <button onclick="addComment(${index})">댓글 추가</button>`;
+
+        // 댓글 목록
+        postItem.innerHTML += `<h3>댓글 목록</h3>
+          <ul id="commentList${index}"></ul>`;
+
+        const commentList = postItem.querySelector(`#commentList${index}`);
+        post.comments.forEach((comment, commentIndex) => {
+          const commentItem = document.createElement('li');
+          commentItem.className = 'comment';
+          commentItem.innerHTML = `<strong>${comment.author}</strong>: ${comment.content} <button onclick="editComment(${index}, ${commentIndex})">수정</button> <button onclick="deleteComment(${index}, ${commentIndex})">삭제</button>`;
+          commentList.appendChild(commentItem);
+        });
+
+        postList.appendChild(postItem);
+      });
+    }
+
+    // 게시물 삭제 함수
+    function deletePost(index) {
+      posts.splice(index, 1);
+      updateLocalStorage();
+      displayPosts();
+    }
+
+    // 댓글 추가 함수
+    function addComment(postIndex) {
+      const author = document.getElementById(`commentAuthor${postIndex}`).value;
+      const content = document.getElementById(`commentContent${postIndex}`).value;
+      if (author && content) {
+        const comment = { author, content };
+        posts[postIndex].comments.push(comment);
+        updateLocalStorage();
+        displayPosts();
+      }
+    }
+
+    // 댓글 삭제 함수
+    function deleteComment(postIndex, commentIndex) {
+      posts[postIndex].comments.splice(commentIndex, 1);
+      updateLocalStorage();
+      displayPosts();
+    }
+
+    // 게시물 수정 함수
+    function editPost(index) {
+      const newTitle = prompt('수정할 제목을 입력하세요:', posts[index].title);
+      const newContent = prompt('수정할 내용을 입력하세요:', posts[index].content);
+      if (newTitle !== null && newContent !== null) {
+        posts[index].title = newTitle;
+        posts[index].content = newContent;
+        updateLocalStorage();
+        displayPosts();
+      }
+    }
+
+    // 댓글 수정 함수
+    function editComment(postIndex, commentIndex) {
+      const newContent = prompt('수정할 내용을 입력하세요:', posts[postIndex].comments[commentIndex].content);
+      if (newContent !== null) {
+        posts[postIndex].comments[commentIndex].content = newContent;
+        updateLocalStorage();
+        displayPosts();
+      }
+    }
+
+    // 게시물 추천 함수
+    function likePost(index) {
+      posts[index].likes += 1;
+      updateLocalStorage();
+      displayPosts();
+    }
+
+    // 업데이트된 게시물 데이터를 localStorage에 저장
+    function updateLocalStorage() {
+      localStorage.setItem('posts', JSON.stringify(posts));
+    }
+  </script>
+</body>
+</html>

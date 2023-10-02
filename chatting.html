@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>채팅</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #f9f9f9;
+      padding: 40px;
+      text-align: center;
+    }
+
+    h1 {
+      font-size: 48px;
+      color: #3498db;
+      margin-bottom: 20px;
+    }
+
+    h2 {
+      font-size: 24px;
+      margin-bottom: 10px;
+    }
+
+    input[type="text"] {
+      padding: 10px;
+      margin: 5px;
+      width: 200px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+
+    button {
+      padding: 10px 20px;
+      margin: 5px;
+      font-weight: bold;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s, color 0.3s;
+    }
+
+    button:hover {
+      background-color: #2ecc71;
+      color: #fff;
+    }
+
+    ul {
+      list-style-type: none;
+      padding: 0;
+    }
+
+    li {
+      margin-bottom: 10px;
+      text-align: left;
+    }
+  </style>
+<style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #f5f5f5;
+      padding: 40px;
+      text-align: center;
+    }
+
+    h1 {
+      font-size: 48px;
+      color: #3498db;
+      margin-bottom: 30px;
+    }
+
+    a {
+      text-decoration: none;
+      color: #2ecc71;
+      font-weight: bold;
+      padding: 10px 20px;
+      border: 2px solid #2ecc71;
+      border-radius: 5px;
+      margin: 10px;
+      transition: background-color 0.3s, color 0.3s;
+      display: inline-block;
+    }
+
+    a:hover {
+      background-color: #2ecc71;
+      color: #fff;
+    }
+  </style>
+</head>
+<body>
+  <h1><a href="blog.html">블로그 메인 페이지</a></h1>
+  <h1>채팅</h1>
+
+  <!-- Chat addition form -->
+  <h2>채팅 추가</h2>
+  <input type="text" id="commentAuthor" placeholder="사용자 이름">
+  <input type="text" id="commentContent" placeholder="채팅 내용">
+  <button onclick="addComment()">채팅 추가</button>
+
+  <!-- Chat list -->
+  <h2>채팅 목록</h2>
+  <ul id="commentList"></ul>
+
+  <script>
+    // Chat data
+    let comments = [];
+
+    // Load chat from localStorage on page load
+    window.onload = function() {
+      if(localStorage.getItem('comments')) {
+        comments = JSON.parse(localStorage.getItem('comments'));
+        displayComments();
+      }
+    }
+
+    // Function to add a chat
+    function addComment() {
+      const author = document.getElementById('commentAuthor').value;
+      const content = document.getElementById('commentContent').value;
+      const comment = `${author}: ${content}`;
+      comments.push(comment);
+      displayComments();
+      updateLocalStorage();
+    }
+
+    // Function to edit a chat
+    function editComment(index) {
+      const newContent = prompt('채팅을 수정하세요:', comments[index]);
+      if (newContent !== null) {
+        comments[index] = newContent;
+        displayComments();
+        updateLocalStorage();
+      }
+    }
+
+    // Function to add a reply
+    function addReply(index) {
+      const replyContent = prompt('대댓글 내용을 입력하세요:');
+      if (replyContent !== null) {
+        comments[index] += `<br> 대댓글: ${replyContent}`;
+        displayComments();
+        updateLocalStorage();
+      }
+    }
+
+    // Function to display chat list on the screen
+    function displayComments() {
+      const commentList = document.getElementById('commentList');
+      commentList.innerHTML = '';
+
+      comments.forEach((comment, index) => {
+        const commentItem = document.createElement('li');
+        commentItem.innerHTML = `${comment} <button onclick="editComment(${index})">수정</button> <button onclick="deleteComment(${index})">삭제</button> <button onclick="addReply(${index})">대댓글</button>`;
+        commentList.appendChild(commentItem);
+      });
+    }
+
+    // Function to delete a chat
+    function deleteComment(index) {
+      comments.splice(index, 1);
+      displayComments();
+      updateLocalStorage();
+    }
+
+    // Update localStorage whenever a chat is modified
+    function updateLocalStorage() {
+      localStorage.setItem('comments', JSON.stringify(comments));
+    }
+  </script>
+</body>
+</html>

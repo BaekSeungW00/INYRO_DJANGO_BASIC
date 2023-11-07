@@ -8,4 +8,5 @@ class User(AbstractUser):
     
 
 class Chatting(models.Model):
-    users = models.ForeignKey(User, related_name="chattings")
+    content = models.CharField(max_length=200, null=True)
+    users = models.ForeignKey(User, related_name="chattings", on_delete=models.CASCADE)

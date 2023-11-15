@@ -1,40 +1,9 @@
 <!DOCTYPE html>
 <html>
+
 <head>
   <meta charset="utf-8">
-  <title>블로그 메인 페이지</title>
-  <style>
-    body {
-      font-family: 'Arial', sans-serif;
-      background-color: #f5f5f5;
-      padding: 40px;
-      text-align: center;
-    }
-
-    h1 {
-      font-size: 48px;
-      color: #3498db;
-      margin-bottom: 30px;
-    }
-
-    a, .button {
-      text-decoration: none;
-      color: #2ecc71;
-      font-weight: bold;
-      padding: 10px 20px;
-      border: 2px solid #2ecc71;
-      border-radius: 5px;
-      margin: 10px;
-      transition: background-color 0.3s, color 0.3s;
-      display: inline-block;
-    }
-
-    a:hover, .button:hover {
-      background-color: #2ecc71;
-      color: #fff;
-    }
-  </style>
-
+  <title>회원 가입</title>
   <style>
     /* Your existing styles here */
 
@@ -48,7 +17,8 @@
       margin-bottom: 5px;
     }
 
-    input[type="text"], input[type="password"] {
+    input[type="text"],
+    input[type="password"] {
       width: 10%;
       padding: 10px;
       margin-bottom: 10px;
@@ -70,23 +40,59 @@
       background-color: #2980b9;
     }
   </style>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #f5f5f5;
+      padding: 40px;
+      text-align: center;
+    }
+
+    h1 {
+      font-size: 48px;
+      color: #3498db;
+      margin-bottom: 30px;
+    }
+
+    a {
+      text-decoration: none;
+      color: #2ecc71;
+      font-weight: bold;
+      padding: 10px 20px;
+      border: 2px solid #2ecc71;
+      border-radius: 5px;
+      margin: 10px;
+      transition: background-color 0.3s, color 0.3s;
+      display: inline-block;
+    }
+
+    a:hover {
+      background-color: #2ecc71;
+      color: #fff;
+    }
+  </style>
 </head>
+
 <body>
   <h1><a href="blog.html">블로그 메인 페이지</a></h1>
+  <h3>회원가입</h3>
 
-  <a href="post_management.html">게시물 관리</a>
-  <a href="chatting.html">채팅</a>
-
-  <!-- Registration form -->
+  <!-- 회원가입 폼 -->
   <form action="" method="POST">
+    {% csrf_token %}
     <label for="username">사용자 이름:</label>
     <input type="text" id="username" name="username" required>
 
     <label for="password">비밀번호:</label>
     <input type="password" id="password" name="password" required>
-<br>
-    <input type="submit" value="Login">
-    <a href="register.html" class="button">회원가입</a>
+
+    <label for="confirm_password">비밀번호 확인:</label>
+    <input type="password" id="confirm_password" name="confirm_password" required>
+
+    <br>
+
+    <input type="submit" value="가입하기">
   </form>
 </body>
+
 </html>

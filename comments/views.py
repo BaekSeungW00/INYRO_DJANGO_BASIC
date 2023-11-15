@@ -1,3 +1,7 @@
 from django.shortcuts import render
 
-# Create your views here.
+def comment_create(request):
+    if request.method == 'GET':
+        return
+    else:
+        return

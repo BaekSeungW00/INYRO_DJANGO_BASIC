@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
   <meta charset="utf-8">
   <title>채팅</title>
@@ -55,47 +56,19 @@
       text-align: left;
     }
   </style>
-<style>
-    body {
-      font-family: 'Arial', sans-serif;
-      background-color: #f5f5f5;
-      padding: 40px;
-      text-align: center;
-    }
-
-    h1 {
-      font-size: 48px;
-      color: #3498db;
-      margin-bottom: 30px;
-    }
-
-    a {
-      text-decoration: none;
-      color: #2ecc71;
-      font-weight: bold;
-      padding: 10px 20px;
-      border: 2px solid #2ecc71;
-      border-radius: 5px;
-      margin: 10px;
-      transition: background-color 0.3s, color 0.3s;
-      display: inline-block;
-    }
-
-    a:hover {
-      background-color: #2ecc71;
-      color: #fff;
-    }
-  </style>
 </head>
+
 <body>
   <h1><a href="blog.html">블로그 메인 페이지</a></h1>
   <h1>채팅</h1>
 
   <!-- Chat addition form -->
   <h2>채팅 추가</h2>
-  <input type="text" id="commentAuthor" placeholder="사용자 이름">
-  <input type="text" id="commentContent" placeholder="채팅 내용">
-  <button onclick="addComment()">채팅 추가</button>
+  <form id="chatForm" onsubmit="event.preventDefault(); addComment();">
+    <input type="text" id="commentAuthor" name="commentAuthor" placeholder="사용자 이름" required>
+    <input type="text" id="commentContent" name="commentContent" placeholder="채팅 내용" required>
+    <button type="submit">채팅 추가</button>
+  </form>
 
   <!-- Chat list -->
   <h2>채팅 목록</h2>
@@ -106,8 +79,8 @@
     let comments = [];
 
     // Load chat from localStorage on page load
-    window.onload = function() {
-      if(localStorage.getItem('comments')) {
+    window.onload = function () {
+      if (localStorage.getItem('comments')) {
         comments = JSON.parse(localStorage.getItem('comments'));
         displayComments();
       }
@@ -121,6 +94,7 @@
       comments.push(comment);
       displayComments();
       updateLocalStorage();
+      document.getElementById('chatForm').reset();
     }
 
     // Function to edit a chat
@@ -168,4 +142,5 @@
     }
   </script>
 </body>
+
 </html>

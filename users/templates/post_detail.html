@@ -83,7 +83,7 @@
       padding: 5px 10px;
       border: 1px solid #ccc;
       border-radius: 5px;
-      background-color: rgb(218, 192, 192);
+      background-color: #f5f5f5;
     }
   </style>
 
@@ -91,20 +91,24 @@
 <body>
   <h1><a href="{% url 'login' %}">블로그 메인 페이지</a></h1>
 
-  <!-- 게시물 추가 폼 -->
+  <!-- 게시물 추가 폼
   <h1>게시물 목록</h1>
-  <form method="post" action="{% url 'post_create' %}">
+  <form method="post" action="{%  %}">
     <input type="text" name="title" placeholder="제목" required>
     <input type="text" name="content" placeholder="내용" required>
-    <input type="file" name="file" accept="image/*, .pdf, .doc, .docx"> <!-- 파일 업로드 추가 -->
-    <a href="{% url 'post_create' %}">게시물 추가</a>
-  </form>
+    <input type="file" name="file" accept="image/*, .pdf, .doc, .docx">     파일 업로드 추가 -->
+    <!-- <button type="submit">게시물 추가</button> -->
+  <!-- </form> -->
   
 
   <div>
-    {% for post in post_list %}
-     <a href="{% url 'post_detail' post.id %}">{{post.title}}</a><br>
-    {% endfor %}
+     <a href="{% url 'post_detail' post.id %}">{{post.title}}</a>
+     <p>{{post.content}}</p><br>
+	{% if request.user == post.user %}
+      <a href="{% url 'post_update' %}">수정</a>
+      <a href="{% url 'post_delete' %}">삭제</a>
+	{% endif %}
+  
   </div>
 </body>
 

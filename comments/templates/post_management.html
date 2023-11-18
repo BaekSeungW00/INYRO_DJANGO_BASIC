@@ -89,11 +89,11 @@
 
 </head>
 <body>
-  <h1><a href="blog.html">블로그 메인 페이지</a></h1>
+  <h1><a href="{% url 'login' %}">블로그 메인 페이지</a></h1>
 
   <!-- 게시물 추가 폼 -->
   <h1>게시물 목록</h1>
-  <form method="post" action="">
+  <form method="post" action="{%  %}">
     <input type="text" name="title" placeholder="제목" required>
     <input type="text" name="content" placeholder="내용" required>
     <input type="file" name="file" accept="image/*, .pdf, .doc, .docx"> <!-- 파일 업로드 추가 -->
@@ -103,12 +103,7 @@
 
   <div>
     {% for post in post_list %}
-     <a href={% url 'post_detail' post.id %}>{{post.title}}</a>
-     <p>{{post.content}}</p><br>
-	{% if request.user == post.user %}
-     		<button type="button">수정</button>
-     		<button type="button">삭제</button>
-	{% endif %}
+     <a href="{% url 'post_detail' post.id %}">{{post.title}}</a><br>
     {% endfor %}
   </div>
 </body>

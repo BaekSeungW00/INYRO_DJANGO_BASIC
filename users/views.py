@@ -37,12 +37,13 @@ def login_view(request):
     else:
         return render(request, 'blog.html', {'user': request.user})
     
+    
 def logout_view(request):
     if request.user.is_authenticated:
         logout(request)
         return redirect('login')
     else:
-        return HttpResponse('로그인 해라 씨발아')
+        return HttpResponse('로그인 상태가 아닙니다.')
 
 
 

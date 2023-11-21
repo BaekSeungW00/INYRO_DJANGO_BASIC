@@ -89,8 +89,11 @@
   <a href="{% url 'logout' %}" class="logout-button">로그아웃</a>
  {% endif %}
 
+
+
   <!-- 로그인 폼 -->
   {% if not user.is_authenticated %}
+  <hr>
     <form action="{% url 'login' %}"method="POST">
       <label for="username">사용자 이름:</label>
       <input type="text" id="username" name="username" required>

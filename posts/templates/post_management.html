@@ -90,21 +90,18 @@
 </head>
 <body>
   <h1><a href="{% url 'login' %}">블로그 메인 페이지</a></h1>
-
-  <!-- 게시물 추가 폼 -->
-  <h1>게시물 목록</h1>
-  <form method="post" action="{% url 'post_create' %}">
-    <input type="text" name="title" placeholder="제목" required>
-    <input type="text" name="content" placeholder="내용" required>
-    <input type="file" name="file" accept="image/*, .pdf, .doc, .docx"> <!-- 파일 업로드 추가 -->
-    <a href="{% url 'post_create' %}">게시물 추가</a>
-  </form>
   
+  <hr>
 
   <div>
-    {% for post in post_list %}
-     <a href="{% url 'post_detail' post.id %}">{{post.title}}</a><br>
+    <ol>
+      {% for post in post_list %}
+     <li>
+      <a href="{% url 'post_detail' post.id %}">{{post.title}}    {{post.username}}   {{post.created_at}}</a><br>
+     </li>
     {% endfor %}
+    </ol>
+    <a href="{% url 'post_create' %}">게시물 추가</a>
   </div>
 </body>
 

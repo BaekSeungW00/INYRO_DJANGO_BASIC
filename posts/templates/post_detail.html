@@ -91,22 +91,19 @@
 <body>
   <h1><a href="{% url 'login' %}">블로그 메인 페이지</a></h1>
 
-  <!-- 게시물 추가 폼
-  <h1>게시물 목록</h1>
-  <form method="post" action="{%  %}">
-    <input type="text" name="title" placeholder="제목" required>
-    <input type="text" name="content" placeholder="내용" required>
-    <input type="file" name="file" accept="image/*, .pdf, .doc, .docx">     파일 업로드 추가 -->
-    <!-- <button type="submit">게시물 추가</button> -->
-  <!-- </form> -->
   
-
   <div>
-     <a href="{% url 'post_detail' post.id %}">{{post.title}}</a>
+    <p>{{post.user}}</p>
+     <h2>제목 : {{ post.title }}</h2>
+     <hr>
      <p>{{post.content}}</p><br>
+     <p>{{post.view_count}}</p><br>
+     <a href="{% url 'post_attachment' post.id %}">첨부파일</a>
+
+      <p>{{post.created_at}}</p><br>
 	{% if request.user == post.user %}
-      <a href="{% url 'post_update' %}">수정</a>
-      <a href="{% url 'post_delete' %}">삭제</a>
+      <a href="{% url 'post_update' post.id %}">수정</a>
+      <a href="{% url 'post_delete' post.id %}">삭제</a>
 	{% endif %}
   
   </div>

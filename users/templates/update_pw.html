@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>비밀번호 변경</title>
+</head>
+<body>
+    <h2>비밀번호 변경</h2>
+    <hr>
+    <form action="{% url 'pw_update' user.id %}" method="POST">
+        <label for="password">비밀번호 :    </label>
+        <input type="password" id="password" name="password" required><br>
+    
+        <label for="confirm_password">비밀번호 확인 :</label>
+        <input type="password" id="confirm_password" name="confirm_password" required>
+
+        <input type="submit" value="변경">
+    </form>
+
+</body>
+</html>

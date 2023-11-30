@@ -93,11 +93,11 @@
 
   
   <div>
-    <p>{{post.user}}</p>
+    <p>글쓴이 : <a href="{% url 'profile' post.user.id  %}">{{post.user}}</a></p>
      <h2>제목 : {{ post.title }}</h2>
      <hr>
-     <p>{{post.content}}</p><br>
-     <p>{{post.view_count}}</p><br>
+     <p>내용 : {{post.content}}</p><br>
+     <p>조회수 : {{post.view_count}}</p><br>
      <a href="{% url 'post_attachment' post.id %}">첨부파일</a>
 
       <p>{{post.created_at}}</p><br>
@@ -105,6 +105,32 @@
       <a href="{% url 'post_update' post.id %}">수정</a>
       <a href="{% url 'post_delete' post.id %}">삭제</a>
 	{% endif %}
+  
+    <br>
+    {% if is_liked %}
+    <a href="{% url 'like' post.id %}" style="font-size: 24px; padding: 2px 9px; color: red;">♥</a>
+    {% else %}
+    <a href="{% url 'like' post.id %}" style="font-size: 24px; padding: 2px 9px;">♥</a>
+    {% endif %}
+
+    <p>좋아요 수 : {{ post.like_count }}</p>
+
+  <br><br><br><hr>
+  <h4>댓글</h4>
+ <form method="post" action="{% url 'comment_create' post.id %}" enctype="multipart/form-data">
+   <input type="text" name="content" placeholder="내용" required>
+   <input type="submit" value="댓글 추가">
+ </form>
+  {% for comment in comment %}
+     <li>
+      <p><a href="{% url 'profile' comment.user.id %}">{{comment.user}}</a>  :   {{comment.content}}</p><br>
+     </li>
+     {% if request.user == comment.user %}
+      <a href="{% url 'comment_update' post.id comment.id %}">댓글 수정</a>
+      <a href="{% url 'comment_delete' post.id comment.id %}">댓글 삭제</a>
+	{% endif %}
+    {% endfor %}
+
   
   </div>
 </body>

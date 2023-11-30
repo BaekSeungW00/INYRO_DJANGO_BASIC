@@ -96,9 +96,7 @@
   <div>
     <ol>
       {% for post in post_list %}
-     <li>
-      <a href="{% url 'post_detail' post.id %}">{{post.title}}    {{post.username}}   {{post.created_at}}</a><br>
-     </li>
+      <a href="{% url 'post_detail' post.id %}">{{post.title}}    {{post.user}}    {{post.created_at}}</a><br>
     {% endfor %}
     </ol>
     <a href="{% url 'post_create' %}">게시물 추가</a>

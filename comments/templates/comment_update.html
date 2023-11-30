@@ -3,7 +3,6 @@
 
 <head>
   <meta charset="utf-8">
-  <title>게시물 관리</title>
   <style>
     body {
       font-family: 'Arial', sans-serif;
@@ -89,28 +88,15 @@
 
 </head>
 <body>
-  <h1><a href="blog.html">블로그 메인 페이지</a></h1>
-
-  <!-- 게시물 추가 폼 -->
-  <h1>게시물 목록</h1>
-  <form method="post" action="">
-    <input type="text" name="title" placeholder="제목" required>
+  <!-- 기존 제목 내용 추가 -->
+  <h2>댓글 수정</h2>   
+  <form method="post" action="{% url 'comment_update' post.id comment.id %}">
     <input type="text" name="content" placeholder="내용" required>
-    <input type="file" name="file" accept="image/*, .pdf, .doc, .docx"> <!-- 파일 업로드 추가 -->
-    <button type="submit">게시물 추가</button>
+    <input type="submit" value="게시물 수정">
   </form>
   
 
-  <div>
-    {% for post in post_list %}
-     <a href={% url 'post_detail' post.id %}>{{post.title}}</a>
-     <p>{{post.content}}</p><br>
-	{% if request.user == post.user %}
-     		<button type="button">수정</button>
-     		<button type="button">삭제</button>
-	{% endif %}
-    {% endfor %}
-  </div>
+ 
 </body>
 
 </html>

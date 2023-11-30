@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>프로필</title>
+</head>
+<body>
+    <h4>프로필 수정</h4>
+ <form method="post" action="{% url 'profile_update' user.id %}" enctype="multipart/form-data">
+  <label for="about"> 소개:</label>
+  <input type="text" id="about" name="about" value="{{ user.about }}" required><br>
+  프로필 이미지 :    <input type="file" name="image">
+   <input type="submit" value="수정">
+ </form>
+</body>
+</html>

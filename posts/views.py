@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
-from .models import Post
+from .models import Post, Post_Recommend
+from comments.models import Comment
 from django.http import HttpResponse
 
 def post_create(request):
@@ -13,7 +14,7 @@ def post_create(request):
         post = Post.objects.create(user=request.user, title = title, content = content, attachment=file)
         post.save()
 
-        return redirect('post_create')
+        return redirect('post_detail', post.id)
     
 
 
@@ -22,6 +23,7 @@ def post_update(request, post_id):
     if request.method == 'POST':
         
         if request.user == post.user:
+            post.view_count -= 1
             title = request.POST.get('title')
             content = request.POST.get('content')
             file = request.FILES.get("file")
@@ -31,7 +33,7 @@ def post_update(request, post_id):
             post.file = file
             post.save()
 
-            return render(request, 'post_detail.html', {'post':post})
+            return redirect('post_detail', post.id)
         return HttpResponse("자신의 게시물이 아님")
     else:
         return render(request, 'post_update.html', {'post':post})
@@ -56,7 +58,17 @@ def post_list_view(request):
 
 def post_detail(request, post_id):
     post = Post.objects.get(id=post_id)
-    return render(request, 'post_detail.html', {'post' : post})
+    comment = Comment.objects.filter(post_id=post_id)
+    is_liked = Post_Recommend.objects.filter(posts=post, user=request.user).exists()
+
+    post.view_count += 1
+    post.save()
+    context = {
+        'post' : post,
+        'comment' : comment,
+        'is_liked': is_liked
+    }
+    return render(request, 'post_detail.html', context)
 
 
 def post_attachment(request, post_id):
@@ -67,3 +79,26 @@ def post_attachment(request, post_id):
         response = HttpResponse(file.read(), content_type='application/force-download')
         response['Content-Disposition'] = f'attachment; filename={post.attachment.name}'
         return response
+    
+
+def like(request, post_id):
+    post = Post.objects.get(id=post_id)
+    user = request.user
+    post.view_count -= 1
+
+    try:
+        recommendation = Post_Recommend.objects.get(posts=post, user=user)
+        recommendation.delete()
+        post.like_count -= 1
+    except Post_Recommend.DoesNotExist:
+        Post_Recommend.objects.create(posts=post, user=user)
+        post.like_count += 1
+
+    post.save()
+
+    return redirect('post_detail', post_id=post_id)
+
+
+
+
+    

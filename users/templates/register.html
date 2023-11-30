@@ -81,7 +81,7 @@
 
 
   <!-- 회원가입 폼 -->
-  <form action="{% url 'register' %}" method="POST">
+  <form action="{% url 'register' %}" method="POST" enctype="multipart/form-data">
     {% csrf_token %}
     <label for="username">사용자 이름:</label>
     <input type="text" id="username" name="username" required>
@@ -92,7 +92,13 @@
     <label for="confirm_password">비밀번호 확인:</label>
     <input type="password" id="confirm_password" name="confirm_password" required>
 
-    <br>
+    <label for="about"> 소개:</label>
+    <input type="text" id="about" name="about" required><br>
+
+   
+    프로필 이미지 :    <input type="file" name="image">
+
+    <br><br>
 
     <input type="submit" value="가입하기">
   </form>

@@ -3,10 +3,5 @@ from django.contrib.auth.models import AbstractUser
 
  
 class User(AbstractUser):
-    about = models.TextField(max_length=200)
-    profile_image = models.ImageField(upload_to='upload_to')
-    
-
-class Chatting(models.Model):
-    content = models.CharField(max_length=200, null=True)
-    users = models.ForeignKey(User, null=True, related_name="chattings", on_delete=models.CASCADE)
+    about = models.TextField(max_length=200, null=True)
+    profile_image = models.ImageField(upload_to='user_profile_image/', null=True, blank=True)

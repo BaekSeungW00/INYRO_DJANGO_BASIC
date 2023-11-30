@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>프로필</title>
+</head>
+<body>
+    {% if user.profile_image  %}
+        <img src="{{ user.profile_image.url }}" width="100px" height="120px" alt="">
+    {% else %}
+        <img src="https://i.pinimg.com/550x/f3/c9/6c/f3c96c43766c04eaa1b773eb38ef531e.jpg" width="100px" height="120px" alt="">
+    {% endif %}
+    <p>유저이름 : {{ user.username }}</p><br>
+    <p>소개 : {{ user.about }}</p>
+    <p>최근 로그인 : {{ user.last_login }}</p>
+    <p>가입날짜 : {{ user.date_joined }}</p>
+
+    {% if request.user == user %}
+      <a href="{% url 'profile_update' user.id %}">수정</a>
+      <a href="{% url 'pw_update' user.id %}">비밀번호 변경</a>
+	{% endif %}
+
+</body>
+</html>

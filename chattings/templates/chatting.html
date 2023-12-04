@@ -7,7 +7,7 @@
   <style>
     body {
       font-family: 'Arial', sans-serif;
-      background-color: #f9f9f9;
+      background-color: #f5f5f5;
       padding: 40px;
       text-align: center;
     }
@@ -15,45 +15,79 @@
     h1 {
       font-size: 48px;
       color: #3498db;
-      margin-bottom: 20px;
+      margin-bottom: 30px;
     }
 
-    h2 {
-      font-size: 24px;
-      margin-bottom: 10px;
-    }
-
-    input[type="text"] {
-      padding: 10px;
-      margin: 5px;
-      width: 200px;
-      border-radius: 5px;
-      border: 1px solid #ccc;
-    }
-
-    button {
-      padding: 10px 20px;
-      margin: 5px;
+    a,
+    .button {
+      text-decoration: none;
+      color: #2ecc71;
       font-weight: bold;
-      border: none;
+      padding: 10px 20px;
+      border: 2px solid #2ecc71;
       border-radius: 5px;
-      cursor: pointer;
+      margin: 10px;
       transition: background-color 0.3s, color 0.3s;
+      display: inline-block;
     }
 
-    button:hover {
+    a:hover,
+    .button:hover {
       background-color: #2ecc71;
       color: #fff;
     }
 
-    ul {
-      list-style-type: none;
-      padding: 0;
+    
+    form {
+      margin-top: 30px;
     }
 
-    li {
+    label {
+      display: block;
+      margin-bottom: 5px;
+    }
+
+    input[type="text"],
+    input[type="password"] {
+      width: 10%;
+      padding: 10px;
       margin-bottom: 10px;
-      text-align: left;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    input[type="submit"] {
+      padding: 10px 20px;
+      border: none;
+      background-color: #3498db;
+      color: #fff;
+      font-weight: bold;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    input[type="submit"]:hover {
+      background-color: #2980b9;
+    }
+
+    .logout-button {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      font-weight: bold;
+      padding: 10px 20px;
+      border: none;
+      background-color: #3498db;
+      color: #fff;
+      font-weight: bold;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .delete-button {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      font-weight: bold;
     }
   </style>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
@@ -125,6 +159,7 @@
 
   <!-- Chat list -->
   <h2>채팅 목록</h2>
+  <hr>
   <ul>
       {% for i in messages %}
         <li id="chatList"><a href="{% url 'profile' i.user.id %}">{{i.user}}</a>: {{i.message}}</li>

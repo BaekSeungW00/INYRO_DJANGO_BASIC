@@ -4,12 +4,91 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>프로필</title>
+    <style>
+        body {
+          font-family: 'Arial', sans-serif;
+          background-color: #f5f5f5;
+          padding: 40px;
+          text-align: center;
+        }
+    
+        h1 {
+          font-size: 48px;
+          color: #3498db;
+          margin-bottom: 30px;
+        }
+    
+        a,
+        .button {
+          text-decoration: none;
+          color: #2ecc71;
+          font-weight: bold;
+          padding: 10px 20px;
+          border: 2px solid #2ecc71;
+          border-radius: 5px;
+          margin: 10px;
+          transition: background-color 0.3s, color 0.3s;
+          display: inline-block;
+        }
+    
+        a:hover,
+        .button:hover {
+          background-color: #2ecc71;
+          color: #fff;
+        }
+    
+        
+        form {
+          margin-top: 30px;
+        }
+    
+        label {
+          display: block;
+          margin-bottom: 5px;
+        }
+    
+        input[type="text"],
+        input[type="password"] {
+          width: 10%;
+          padding: 10px;
+          margin-bottom: 10px;
+          border: 1px solid #ccc;
+          border-radius: 5px;
+        }
+    
+        input[type="submit"] {
+          padding: 10px 20px;
+          border: none;
+          background-color: #3498db;
+          color: #fff;
+          font-weight: bold;
+          border-radius: 5px;
+          cursor: pointer;
+        }
+    
+        input[type="submit"]:hover {
+          background-color: #2980b9;
+        }
+    
+        .logout-button {
+          position: fixed;
+          top: 20px;
+          right: 20px;
+          font-weight: bold;
+        }
+        .delete-button {
+          position: fixed;
+          top: 20px;
+          left: 20px;
+          font-weight: bold;
+        }
+      </style>
 </head>
 <body>
     {% if user.profile_image  %}
         <img src="{{ user.profile_image.url }}" width="100px" height="120px" alt="">
     {% else %}
-        <img src="https://i.pinimg.com/550x/f3/c9/6c/f3c96c43766c04eaa1b773eb38ef531e.jpg" width="100px" height="120px" alt="">
+        <img src="https://www.pngkey.com/png/detail/115-1150152_default-profile-picture-avatar-png-green.png" width="100px" height="120px" alt="">
     {% endif %}
     <p>유저이름 : {{ user.username }}</p><br>
     <p>소개 : {{ user.about }}</p>

@@ -4,13 +4,92 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>프로필</title>
+    <style>
+        body {
+          font-family: 'Arial', sans-serif;
+          background-color: #f5f5f5;
+          padding: 40px;
+          text-align: center;
+        }
+    
+        h4 {
+          font-size: 25px;
+          color: #3498db;
+          margin-bottom: 30px;
+        }
+    
+        a,
+        .button {
+          text-decoration: none;
+          color: #2ecc71;
+          font-weight: bold;
+          padding: 10px 20px;
+          border: 2px solid #2ecc71;
+          border-radius: 5px;
+          margin: 10px;
+          transition: background-color 0.3s, color 0.3s;
+          display: inline-block;
+        }
+    
+        a:hover,
+        .button:hover {
+          background-color: #2ecc71;
+          color: #fff;
+        }
+    
+        
+        form {
+          margin-top: 30px;
+        }
+    
+        label {
+          display: block;
+          margin-bottom: 5px;
+        }
+    
+        input[type="text"],
+        input[type="password"] {
+          width: 10%;
+          padding: 10px;
+          margin-bottom: 10px;
+          border: 1px solid #ccc;
+          border-radius: 5px;
+        }
+    
+        input[type="submit"] {
+          padding: 10px 20px;
+          border: none;
+          background-color: #3498db;
+          color: #fff;
+          font-weight: bold;
+          border-radius: 5px;
+          cursor: pointer;
+        }
+    
+        input[type="submit"]:hover {
+          background-color: #2980b9;
+        }
+    
+        .logout-button {
+          position: fixed;
+          top: 20px;
+          right: 20px;
+          font-weight: bold;
+        }
+        .delete-button {
+          position: fixed;
+          top: 20px;
+          left: 20px;
+          font-weight: bold;
+        }
+      </style>
 </head>
 <body>
     <h4>프로필 수정</h4>
  <form method="post" action="{% url 'profile_update' user.id %}" enctype="multipart/form-data">
-  <label for="about"> 소개:</label>
-  <input type="text" id="about" name="about" value="{{ user.about }}" required><br>
-  프로필 이미지 :    <input type="file" name="image">
+  
+  소개 : <input type="text"  name="about" value="{{ user.about }}" required><br><br>
+  프로필 이미지 :   <input type="file" name="image"><br><br><br>
    <input type="submit" value="수정">
  </form>
 </body>

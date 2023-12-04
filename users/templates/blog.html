@@ -75,6 +75,13 @@
       top: 20px;
       right: 20px;
       font-weight: bold;
+      padding: 10px 20px;
+      border: none;
+      background-color: #3498db;
+      color: #fff;
+      font-weight: bold;
+      border-radius: 5px;
+      cursor: pointer;
     }
     .delete-button {
       position: fixed;
@@ -91,7 +98,7 @@
   <a href="{% url 'post_list' %}">게시물 관리</a>
   <a href="{% url 'chatting' %}">채팅</a>
   <a href="{% url 'profile' user.id %}">프로필</a>
-  <a href="{% url 'logout' %}" class="logout-button">로그아웃</a>
+  <a href="{% url 'logout' %}" class="logout-button">Logout</a>
   <a href="{% url 'delete' user.id %}" class="delete-button">회원 탈퇴</a>
  {% endif %}
 
